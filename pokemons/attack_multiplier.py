@@ -30,4 +30,9 @@ def attack_multiplier(attacker_type: str, defender_type: str) -> str:
 
 
 if __name__ == "__main__":
-    attack_multiplier("fire", "ice")
+    print(attack_multiplier("fire", "grass"))
+    print(attack_multiplier("fighting", "ice rock"))
+    print(attack_multiplier("psychic", "poison dark"))
+    print(attack_multiplier("water", "normal"))
+    print(attack_multiplier("fire", "rock"))
+    print(attack_multiplier("moulder", "rock"))
