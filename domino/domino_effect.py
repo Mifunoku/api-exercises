@@ -6,6 +6,7 @@
 #     print(combination_with_dots)
 
 import time
+import datetime
 import re
 
 z = r"\\"
@@ -21,7 +22,7 @@ pattern = re.compile("|".join(rep.keys()))
 def domino_effect(iterations: int, combination: str):
     """///||\\\|\\|//"""
     combination_with_dots = "." + ".".join(list(combination)) + "."
-    replacements = {"/.|.": "/./.", "|.\.": "\.\."}
+    replacements = {"/.|.\.": "/.|.\.", "/.|.": "/./.", "|.\.": "\.\."}
     replacements = dict((re.escape(k), v) for k, v in replacements.items())
     pattern = re.compile("|".join(replacements.keys()))
     for _ in range(iterations):
@@ -31,48 +32,93 @@ def domino_effect(iterations: int, combination: str):
     return combination
 
 
-def domino_effect_recursive(iterations: int, combination: str):
-    """///||\\\|\\|//"""
-    if iterations > 0:
-        combination_with_dots = "." + ".".join(list(combination)) + "."
-        replacements = {"/.|.": "/./.", "|.\.": "\.\."}
-        replacements = dict((re.escape(k), v) for k, v in replacements.items())
-        pattern = re.compile("|".join(replacements.keys()))
-        text = pattern.sub(lambda m: replacements[re.escape(m.group(0))], combination_with_dots)
-        text = text.replace(".", "")
-        text = domino_effect_recursive(iterations - 1, text)
-        return text
+def domino_effect_no_dots(iterations: int, combination: str):
+    replacements = {"/|\\": "/|\\", "/|": "//", "|\\": "\\\\"}
+    replacements = dict((re.escape(k), v) for k, v in replacements.items())
+    pattern = re.compile("|".join(replacements.keys()))
+    for _ in range(iterations):
+        combination = pattern.sub(lambda m: replacements[re.escape(m.group(0))], combination)
 
+    return combination
+
+
+def domino_effect_recursive(iterations: int, combination: str):
+    replacements = {"/|\\": "/|\\", "/|": "//", "|\\": "\\\\"}
+    replacements = dict((re.escape(k), v) for k, v in replacements.items())
+    pattern = re.compile("|".join(replacements.keys()))
+    if iterations > 0:
+        old_text = pattern.sub(lambda m: replacements[re.escape(m.group(0))], combination)
+        text = domino_effect_recursive(iterations - 1, old_text)
     else:
         text = combination
     return text
 
 
+# def domino_brute_force(iterations: int, combination: str):
+#     standing_dominoes = combination.find_all('|')
+#     if combination[position:position+1] ==
+
+
 if __name__ == "__main__":
-    print("domino_effect: \n", r"///||||\\\||\\|//")
-    start_time = time.perf_counter()
-    print(domino_effect(1, r"///||||\\\||\\|//"))
-    end_time = time.perf_counter()
+    print("domino_effect: \n", r"///|||||\\\||\\|//")
+    start_time = time.perf_counter_ns()
+    print(domino_effect(1, r"///|||||\\\||\\|//"))
+    end_time = time.perf_counter_ns()
     execution_time = end_time - start_time
     print(f"The execution time is: {execution_time}")
 
-    print("recursive: \n", r"///||||\\\||\\|//")
-    start_time = time.perf_counter()
-    print(domino_effect_recursive(1, r"///||||\\\||\\|//"))
-    end_time = time.perf_counter()
+    print("domino_effect_no_dots: \n", r"///|||||\\\||\\|//")
+    start_time = time.perf_counter_ns()
+    print(domino_effect_no_dots(1, r"///|||||\\\||\\|//"))
+    end_time = time.perf_counter_ns()
     execution_time = end_time - start_time
     print(f"The execution time is: {execution_time}")
 
-    print("domino_effect: \n", r"///||||\\\||\\|//")
-    start_time = time.perf_counter()
-    print(domino_effect(30, r"///||||\\\||\\|//"))
-    end_time = time.perf_counter()
+    print("recursive: \n", r"///|||||\\\||\\|//")
+    start_time = time.perf_counter_ns()
+    print(domino_effect_recursive(1, r"///|||||\\\||\\|//"))
+    end_time = time.perf_counter_ns()
     execution_time = end_time - start_time
     print(f"The execution time is: {execution_time}")
 
-    print("recursive: \n", r"///||||\\\||\\|//")
-    start_time = time.perf_counter()
-    print(domino_effect_recursive(30, r"///||||\\\||\\|//"))
-    end_time = time.perf_counter()
+    print("domino_effect: \n", r"///|||||\\\||\\|//")
+    start_time = time.perf_counter_ns()
+    print(domino_effect(30, r"///|||||\\\||\\|//"))
+    end_time = time.perf_counter_ns()
+    execution_time = end_time - start_time
+    print(f"The execution time is: {execution_time}")
+
+    print("domino_effect_no_dots: \n", r"///|||||\\\||\\|//")
+    start_time = time.perf_counter_ns()
+    print(domino_effect_no_dots(30, r"///|||||\\\||\\|//"))
+    end_time = time.perf_counter_ns()
+    execution_time = end_time - start_time
+    print(f"The execution time is: {execution_time}")
+
+    print("recursive: \n", r"///|||||\\\||\\|//")
+    start_time = time.perf_counter_ns()
+    print(domino_effect_recursive(30, r"///|||||\\\||\\|//"))
+    end_time = time.perf_counter_ns()
+    execution_time = end_time - start_time
+    print(f"The execution time is: {execution_time}")
+
+    print("domino_effect: \n", r"///||||||||||||||||||||||||||||\\\||\\|//")
+    start_time = time.perf_counter_ns()
+    print(domino_effect(10, r"///||||||||||||||||||||||||||||\\\||\\|//"))
+    end_time = time.perf_counter_ns()
+    execution_time = end_time - start_time
+    print(f"The execution time is: {execution_time}")
+
+    print("domino_effect_no_dots: \n", r"///||||||||||||||||||||||||||||\\\||\\|//")
+    start_time = time.perf_counter_ns()
+    print(domino_effect_no_dots(10, r"///||||||||||||||||||||||||||||\\\||\\|//"))
+    end_time = time.perf_counter_ns()
+    execution_time = end_time - start_time
+    print(f"The execution time is: {execution_time}")
+
+    print("recursive: \n", r"///||||||||||||||||||||||||||||\\\||\\|//")
+    start_time = time.perf_counter_ns()
+    print(domino_effect_recursive(10, r"///||||||||||||||||||||||||||||\\\||\\|//"))
+    end_time = time.perf_counter_ns()
     execution_time = end_time - start_time
     print(f"The execution time is: {execution_time}")
