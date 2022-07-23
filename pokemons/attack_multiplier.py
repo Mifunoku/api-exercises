@@ -1,5 +1,3 @@
-import __future__
-
 import requests
 from consts import *
 from pokemon_service import type_check, types_check
@@ -30,9 +28,20 @@ def attack_multiplier(attacker_type: str, defender_type: str) -> str:
 
 
 if __name__ == "__main__":
+    # In the scenario we would like to make input from console we just need to uncomment below
+    # new_input = input()
+    # types = new_input.split(' -> ')
+    # print(attack_multiplier(types[0], types[1]))
+
+    print("fire -> grass")
     print(attack_multiplier("fire", "grass"))
+    print("fighting -> ice rock")
     print(attack_multiplier("fighting", "ice rock"))
+    print("psychic -> poison dark")
     print(attack_multiplier("psychic", "poison dark"))
+    print("water -> normal")
     print(attack_multiplier("water", "normal"))
+    print("fire -> rock")
     print(attack_multiplier("fire", "rock"))
+    print("moulder -> rock")
     print(attack_multiplier("moulder", "rock"))
