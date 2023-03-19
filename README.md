@@ -1,4 +1,4 @@
-# algorithmic exercises
+# api exercises
 ## POKEMONS 
 Main pokemon file is attack_multiplier.py
 
